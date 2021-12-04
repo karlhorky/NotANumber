@@ -6,11 +6,13 @@ publishedAt: '2021-12-01'
 editedAt: '2021-12-01'
 ---
 
+import Figure from '@/elements/Figure'
+
 The other day a couple of folks at work introduced me to the [Advent of Code 2021](https://adventofcode.com/) — a series of programming challenges that runs through the holiday season. It sounded fun, so this year I thought I would give it a shot!
 
 This series of posts will walk through my thought process behind solving each problem as they come, starting with day one!
 
-## Sonar Sweep
+## Sonar Sweep I
 
 ### Problem
 
@@ -56,6 +58,12 @@ My first impression is that this is a simple linear scan where we iterate throug
 
 When we're done iterating, we return the counter.
 
+<Figure size="xl">
+
+![](./2021-11-30-aoc-day-01/1a.png)
+
+</Figure>
+
 ```js
 function sonarSweep(numbers) {
   let count = 0
@@ -69,5 +77,48 @@ function sonarSweep(numbers) {
   }
 
   return count
+}
+```
+
+## Sonar Sweep II
+
+To my surprise, the challenge didn't stop there! When I submitted my solution to the challenge, I was greeted with a part 2 that extends the problem a little bit.
+
+Now, instead of comparing two consecutive numbers, we want to compare the sum of consecutive _triplets_.
+
+<Figure size="xl">
+
+![](./2021-11-30-aoc-day-01/1b-problem.png)
+
+</Figure>
+
+_"Aha!"_ I thought. This is a sliding window problem — [I've written about this before](../sliding-window)! So my first approach was to use my sliding window algorithm almost verbatim:
+
+```js
+function sonarSweep(numbers) {
+  let count = 0;
+
+  let windowStart = 0;
+  let windowSum = 0;
+  let previousSum = null;
+
+  for (let windowEnd = 0; windowEnd < numbers.length; windowEnd++) {
+    windowSum += numbers[windowEnd];
+
+    /**
+     * Window size is 3, so we start 
+     */ 
+    if (windowEnd >= 2) {
+      if (previousSum !== null && windowSum > previousSum) {
+        count++;
+      }
+
+      previousSum = windowSum;
+      windowSum -= numbers[windowStart];
+      windowStart++;
+    }
+  }
+
+  return count;
 }
 ```
