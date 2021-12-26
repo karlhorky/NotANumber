@@ -9,6 +9,7 @@ import { styled } from '@/stitches'
 import { formatPath } from '@/lib/utils'
 
 import { frontMatter as aocDay1 } from './2021-11-30-aoc-day-01.mdx'
+import { frontMatter as syncingBabelWithRemix } from './2021-12-25-syncing-babel-with-remix.mdx'
 
 export default function BitsPage() {
   return (
@@ -35,6 +36,7 @@ export default function BitsPage() {
       </Header>
       <Divider />
       <Posts>
+        <Post post={syncingBabelWithRemix} />
         <Post post={aocDay1} />
       </Posts>
     </Page>
